@@ -86,10 +86,8 @@ def main():
     parser.add_argument('-checkpoint', type=int, default=0)
 
     opt = parser.parse_args()
-    
-    opt.device = 0 if opt.no_cuda is False else -1
-    if opt.device == 0:
-        assert torch.cuda.is_available()
+
+    opt.device = torch.device("cuda:3" if (torch.cuda.is_available() and not opt.no_cuda) else "cpu")
     
     read_data(opt)
     SRC, TRG = create_fields(opt)
